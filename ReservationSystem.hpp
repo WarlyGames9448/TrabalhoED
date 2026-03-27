@@ -32,6 +32,7 @@ class ReservationSystem {
 
     void printSchedule();
 
+    int weekdayToInt(std::string weekday);
     // Outros métodos utilitários necessários
     // para auxiliar nas funções requisitadas
 };

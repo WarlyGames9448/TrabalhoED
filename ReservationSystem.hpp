@@ -5,7 +5,7 @@
 
 struct Room {
     // 70 bits por sala (o mínimo nescessário)
-    bool horarios[5][14];
+    std::string horarios[5][14];
 
     Room();
     ~Room();

@@ -39,7 +39,38 @@ int weekdayToInt(std::string weekday) {
 }
 
 bool ReservationSystem::reserve(ReservationRequest request) {
-    return true;
+    int day = weekdayToInt(request.getWeekday());
+    int start_hour = request.getStartHour();
+    int end_hour = request.getEndHour();
+
+    bool is_disponible;
+
+    for (int i = 0; i < this->room_count; i++) {
+        is_disponible = true;
+
+        // Se a capacidade da sala for menor, vá para a próxima sala
+        if (room_capacities[i] < request.getStudentCount())
+            continue;
+
+        for (int hora = start_hour; hora < end_hour; hora++) {
+            // Se a sala no dia e no horário não estiver disponível, passe para a próxima sala.
+            if (rooms[i].horarios[day][start_hour - 7] != "\0") {
+                is_disponible = false;
+                break;
+            }
+        }
+
+        // Se existir sala, aloque o curso.
+        if (is_disponible) {
+            for (int hora = start_hour; hora < end_hour; hora++) {
+                rooms[i].horarios[day][hora] = request.getCourseName();
+            }
+            return true;
+        }
+    }
+
+    // Se não encontrar nenhuma sala no for
+    return false;
 }
 
 bool ReservationSystem::cancel(std::string course_name) {

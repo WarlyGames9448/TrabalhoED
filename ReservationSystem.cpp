@@ -11,14 +11,16 @@ ReservationSystem::ReservationSystem(int room_count, int* room_capacities_extern
     for(int i=0; i<this->room_count; i++){
         this->room_capacities[i] = room_capacities_extern[i];
     }
-    
+
+    this-> room = new Room[this->room_count];
     
 }
 
 // TODO
 
 ReservationSystem::~ReservationSystem() {
-    delete[] room_capacities;
+    delete[] this->room_capacities;
+    delete[] this->room;
 }
 
 bool ReservationSystem::reserve(ReservationRequest request) {

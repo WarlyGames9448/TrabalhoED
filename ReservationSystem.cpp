@@ -2,16 +2,23 @@
 
 #include <iostream>
 
-ReservationSystem::ReservationSystem(int room_count, int* room_capacities) {
+ReservationSystem::ReservationSystem(int room_count, int* room_capacities_extern) {
+    //recebe o valor para saber o limite de salas:
     this->room_count = room_count;
-    this->room_capacities = room_capacities;
+    //alocação dinâmica em um ponteiro para capacidade de cada sala:
+    this->room_capacities = new int[this->room_count];
 
-    // Outros Parâmetros
+    for(int i=0; i<this->room_count; i++){
+        this->room_capacities[i] = room_capacities_extern[i];
+    }
+    
+    
 }
 
 // TODO
 
 ReservationSystem::~ReservationSystem() {
+    delete[] room_capacities;
 }
 
 bool ReservationSystem::reserve(ReservationRequest request) {

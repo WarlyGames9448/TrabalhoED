@@ -3,11 +3,22 @@
 #include <string>
 #include "ReservationRequest.hpp"
 
-class ReservationSystem {
+struct Room {
+    // 70 bits por sala (o mínimo nescessário)
+    bool horarios[5][14];
 
+    Room();
+    ~Room();
+};
+
+class ReservationSystem {
   private:
+    // numero de salas
     int room_count;
+    // capacidade de cada sala
     int* room_capacities;
+    // salas com os dias das semana e horários
+    Room* rooms;
 
     // Estruturas internas escolhidas pelos alunos
     // para armazenar e gerenciar as reservas, os horários, ...

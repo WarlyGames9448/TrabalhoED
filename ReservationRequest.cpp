@@ -11,5 +11,5 @@ ReservationRequest::ReservationRequest(std::string course_name, std::string week
 }
 
 ReservationRequest::~ReservationRequest() {
-    // TODO
+    // vazio pois não tem alocação dinâmica
 }

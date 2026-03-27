@@ -4,11 +4,8 @@
 #include "ReservationRequest.hpp"
 
 struct Room {
-    // 70 bits por sala (o mínimo nescessário)
-    std::string horarios[5][14];
-
-    Room();
-    ~Room();
+    // Guarda os ID dos cursos (0 = horário disponível)
+    int horarios[5][14] = {{0}};
 };
 
 class ReservationSystem {
@@ -20,8 +17,12 @@ class ReservationSystem {
     // salas com os dias das semana e horários
     Room* rooms;
 
-    // Estruturas internas escolhidas pelos alunos
-    // para armazenar e gerenciar as reservas, os horários, ...
+    // ID = posição do curso no array + 1
+    int course_count = 0;
+    std::string* course_names = nullptr;
+
+    // Para auxiliar no print
+    const std::string weekdayName[5] = {"segunda", "terca", "quarta", "quinta", "sexta"};
 
   public:
     ReservationSystem(int room_count, int* room_capacities);
@@ -32,7 +33,9 @@ class ReservationSystem {
 
     void printSchedule();
 
+    void addCourse(std::string course_name);
+
+  private:
+    int getCourseNameID(std::string course_name);
     int weekdayToInt(std::string weekday);
-    // Outros métodos utilitários necessários
-    // para auxiliar nas funções requisitadas
 };

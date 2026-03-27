@@ -41,7 +41,9 @@
 *.dwo
 
 # vscode
-.vscode/
+.vscode
 .clang-format
 build/
 reservation_system
+output/
+CMakeLists.txt

@@ -128,33 +128,51 @@ bool ReservationSystem::cancel(std::string course_name) {
 // TODO: Explicar melhor a função abaixo
 // TODO: implementar que não printe o dia da semana e a sala que não há horários marcados
 
-void ReservationSystem::printSchedule() {
-
+void ReservationSystem::printSchedule(){
     for (int room = 1; room <= this->room_count; room++) {
-        std::cout << "Room " << room << std::endl;
-
+        bool value_found_room = false;
         for (int day = 0; day < 5; day++) {
-            std::cout << weekdayName[day] << ":" << std::endl;
-
-            int id = 0, new_id = 0;
-            int start_hour = 0;
-            for (int hour = 0; hour < 14; hour++) {
-
-                new_id = this->rooms[room - 1].horarios[day][hour];
-                // printa ao percorrer uma sequencia consecutiva de id iguais
-                if (new_id != id) {
-                    // se a sequencia não é vazia, há um horário marcado.
-                    if (id != 0) {
-                        std::cout << start_hour + 7 << "h~" << hour + 7 << "h: " << this->course_names[id - 1] << std::endl;
-                    }
-
-                    id = new_id;
-                    start_hour = hour;
+            for (int h = 0; h < 14; h++) {
+                if (this->rooms[room - 1].horarios[day][h] != 0) {
+                    value_found_room = true;
+                    break;
                 }
             }
-            // Se houver id no ultimo horário
-            if (id != 0) {
-                std::cout << start_hour + 7 << "h~21h: " << this->course_names[id - 1] << std::endl;
+            if (value_found_room) break;
+        }
+        if (!value_found_room) continue;
+        std::cout << "Room " << room << std::endl;
+        for (int day = 0; day < 5; day++) {
+            bool value_found_day = false;
+            for (int h = 0; h < 14; h++) {
+                if (this->rooms[room - 1].horarios[day][h] != 0) {
+                    value_found_day = true;
+                    break;
+                }
+            }
+            if (value_found_day) {
+                std::cout << weekdayName[day] << ":" << std::endl;
+
+                int id_atual = 0;
+                int start_hour = 0;
+
+                for (int h = 0; h < 14; h++) {
+                    int id_na_matriz = this->rooms[room - 1].horarios[day][h];
+                    if (id_na_matriz != id_atual) {
+                        if (id_atual != 0) {
+                            std::cout << start_hour + 7 << "h~" << h + 7 << "h: " 
+                                      << this->course_names[id_atual - 1] << std::endl;
+                        }
+                        
+                        id_atual = id_na_matriz;
+                        start_hour = h;
+                    }
+                }
+
+                if (id_atual != 0) {
+                    std::cout << start_hour + 7 << "h~21h: " 
+                              << this->course_names[id_atual - 1] << std::endl;
+                }
             }
         }
         std::cout << std::endl;

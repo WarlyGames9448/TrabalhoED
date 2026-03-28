@@ -103,8 +103,23 @@ void ReservationSystem::addCourse(std::string course_name) {
 }
 
 bool ReservationSystem::cancel(std::string course_name) {
-
-    return true;
+    int id = getCourseNameID(course_name);
+    if(id == 0){
+        return false;
+    }
+    bool found = false;
+    for(int r = 0; r < this->room_count; r++){
+        for(int d =0; d < 5; d++){
+            for(int h = 0; h <14; h++){
+                if(this->rooms[r].horarios[d][h] == id){
+                    rooms[r].horarios[d][h] = 0;
+                    found = true;
+                }
+            }
+        }
+    }
+    
+    return found;
 }
 
 // TODO: Explicar melhor a função abaixo

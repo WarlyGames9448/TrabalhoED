@@ -39,6 +39,8 @@ int ReservationSystem::weekdayToInt(std::string weekday) {
 
 bool ReservationSystem::reserve(ReservationRequest request) {
     int day = weekdayToInt(request.getWeekday());
+    if (day == -1)
+        return false;
     int start_hour = request.getStartHour();
     int end_hour = request.getEndHour();
 
@@ -86,9 +88,9 @@ void ReservationSystem::addCourse(std::string course_name) {
     int length = this->course_count;
 
     // Se não houver mais espaço para alocar, crie um array com o dobro do tamanho
-    if(length >= this->course_array_length){
+    if (length >= this->course_array_length) {
         // copia para um novo array de tamanho 2(n+1) // (Para evitar o caso n=0)
-        std::string* new_course_names = new std::string[2*(length + 1)];
+        std::string* new_course_names = new std::string[2 * (length + 1)];
 
         for (int i = 0; i < length; i++) {
             new_course_names[i] = this->course_names[i];
@@ -97,7 +99,7 @@ void ReservationSystem::addCourse(std::string course_name) {
         delete[] this->course_names;
         this->course_names = new_course_names;
 
-        this->course_array_length = 2*(length +1);
+        this->course_array_length = 2 * (length + 1);
     }
 
     // atribui o novo curso no array
@@ -107,14 +109,14 @@ void ReservationSystem::addCourse(std::string course_name) {
 
 bool ReservationSystem::cancel(std::string course_name) {
     int id = getCourseNameID(course_name);
-    if(id == 0){
+    if (id == 0) {
         return false;
     }
     bool found = false;
-    for(int r = 0; r < this->room_count; r++){
-        for(int d =0; d < 5; d++){
-            for(int h = 0; h <14; h++){
-                if(this->rooms[r].horarios[d][h] == id){
+    for (int r = 0; r < this->room_count; r++) {
+        for (int d = 0; d < 5; d++) {
+            for (int h = 0; h < 14; h++) {
+                if (this->rooms[r].horarios[d][h] == id) {
                     rooms[r].horarios[d][h] = 0;
                     found = true;
                 }
@@ -128,7 +130,7 @@ bool ReservationSystem::cancel(std::string course_name) {
 // TODO: Explicar melhor a função abaixo
 // TODO: implementar que não printe o dia da semana e a sala que não há horários marcados
 
-void ReservationSystem::printSchedule(){
+void ReservationSystem::printSchedule() {
     for (int room = 1; room <= this->room_count; room++) {
         bool value_found_room = false;
         for (int day = 0; day < 5; day++) {
@@ -138,9 +140,11 @@ void ReservationSystem::printSchedule(){
                     break;
                 }
             }
-            if (value_found_room) break;
+            if (value_found_room)
+                break;
         }
-        if (!value_found_room) continue;
+        if (!value_found_room)
+            continue;
         std::cout << "Room " << room << std::endl;
         for (int day = 0; day < 5; day++) {
             bool value_found_day = false;
@@ -160,18 +164,16 @@ void ReservationSystem::printSchedule(){
                     int id_na_matriz = this->rooms[room - 1].horarios[day][h];
                     if (id_na_matriz != id_atual) {
                         if (id_atual != 0) {
-                            std::cout << start_hour + 7 << "h~" << h + 7 << "h: " 
-                                      << this->course_names[id_atual - 1] << std::endl;
+                            std::cout << start_hour + 7 << "h~" << h + 7 << "h: " << this->course_names[id_atual - 1] << std::endl;
                         }
-                        
+
                         id_atual = id_na_matriz;
                         start_hour = h;
                     }
                 }
 
                 if (id_atual != 0) {
-                    std::cout << start_hour + 7 << "h~21h: " 
-                              << this->course_names[id_atual - 1] << std::endl;
+                    std::cout << start_hour + 7 << "h~21h: " << this->course_names[id_atual - 1] << std::endl;
                 }
             }
         }

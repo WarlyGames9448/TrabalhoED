@@ -18,7 +18,7 @@ class ReservationSystem {
     Room* rooms;
 
     // ID = posição do curso no array + 1
-    int course_count = 0;
+    int course_count = 0, course_array_length = 0;
     std::string* course_names = nullptr;
 
     // Para auxiliar no print

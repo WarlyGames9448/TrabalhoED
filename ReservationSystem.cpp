@@ -82,23 +82,26 @@ int ReservationSystem::getCourseNameID(std::string course_name) {
     return 0;
 }
 
-// TODO: Fazer com que aloque o dobro do tamanho ao invés de 1
-
-// Aumenta o tamanho do array
 void ReservationSystem::addCourse(std::string course_name) {
-    // copia para um novo array
-    int lenght = this->course_count;
-    std::string* new_course_names = new std::string[lenght + 1];
+    int length = this->course_count;
 
-    for (int i = 0; i < lenght; i++) {
-        new_course_names[i] = this->course_names[i];
+    // Se não houver mais espaço para alocar, crie um array com o dobro do tamanho
+    if(length >= this->course_array_length){
+        // copia para um novo array de tamanho 2(n+1) // (Para evitar o caso n=0)
+        std::string* new_course_names = new std::string[2*(length + 1)];
+
+        for (int i = 0; i < length; i++) {
+            new_course_names[i] = this->course_names[i];
+        }
+        // deleta o antigo e aponta para o novo
+        delete[] this->course_names;
+        this->course_names = new_course_names;
+
+        this->course_array_length = 2*(length +1);
     }
-    new_course_names[lenght] = course_name;
 
-    // deleta o antigo e aponta para o novo
-    delete[] this->course_names;
-
-    this->course_names = new_course_names;
+    // atribui o novo curso no array
+    this->course_names[length] = course_name;
     this->course_count++;
 }
 
@@ -118,7 +121,7 @@ bool ReservationSystem::cancel(std::string course_name) {
             }
         }
     }
-    
+
     return found;
 }
 

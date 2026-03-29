@@ -4,20 +4,21 @@
 #include "ReservationRequest.hpp"
 
 struct Room {
-    // Guarda os ID dos cursos (0 = horário disponível)
+    // Guarda os IDs dos cursos (0 = horário disponível)
+    // [5] representa os dias da semana (0=segunda, ..., 4=sexta)
+    // [14] representa os horários das 7h às 21h (0 = 7h~8h, 13 = 20h~21h)
     int horarios[5][14] = {{0}};
 };
 
 class ReservationSystem {
   private:
-    // numero de salas
     int room_count;
-    // capacidade de cada sala
     int* room_capacities;
-    // salas com os dias das semana e horários
     Room* rooms;
 
-    // ID = posição do curso no array + 1
+    // course_count rastreia quantos cursos existem.
+    // course_array_length rastreia o tamanho atual do array alocado na memória.
+    // O ID de um curso é sempre o seu índice no array + 1 (para o 0 representar "vazio").
     int course_count = 0, course_array_length = 0;
     std::string* course_names = nullptr;
 

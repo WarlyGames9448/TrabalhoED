@@ -41,7 +41,8 @@ int main() {
             std::cout << "\nBem vindo ao sistema de reservas de sala, o que gostaria de fazer?" << std::endl;
             std::cout << "(1) Cadastrar disciplina" << std::endl;
             std::cout << "(2) Reservar Sala" << std::endl;
-            std::cout << "(3) Exibir grade horária" << std::endl;
+            std::cout << "(3) Cancelar disciplina" << std::endl;
+            std::cout << "(4) Exibir grade horária" << std::endl;
             std::cout << "(0) Sair" << std::endl;
 
             std::cin >> escolha;
@@ -85,6 +86,17 @@ int main() {
                 break;
             }
             case 3: {
+                std::string course_name;
+                std::cout << "Nome da disciplina: ";
+
+                std::cin.ignore();
+                std::getline(std::cin, course_name);
+
+                bool status = system.cancel(course_name);
+
+                if(status) std::cout << "Cancelamento Realizado." << std::endl;
+            }
+            case 4: {
                 system.printSchedule();
                 break;
             }
